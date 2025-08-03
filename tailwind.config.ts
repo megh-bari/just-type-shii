@@ -1,0 +1,18 @@
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
+  content: [
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        'figtree': ['var(--font-figtree)', 'sans-serif'],
+        'doto': ['var(--font-doto)', 'Arial', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
+export default config

@@ -24,3 +24,28 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+.font-doto {
+  font-family: var(--font-doto), Arial, sans-serif;
+}
+
+.font-figtree {
+  font-family: var(--font-figtree), system-ui, -apple-system, sans-serif;
+}
+
+/* hide scroll-bar */
+html {
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+body {
+    overflow-x: hidden;
+}
