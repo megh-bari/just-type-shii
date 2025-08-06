@@ -39,7 +39,6 @@ export default function JustTypeShii() {
 
     const toggleTheme = () => {
         setIsDark(!isDark)
-        // Auto-adjust text color based on theme
         if (!isDark) {
             // Switching to dark mode
             if (textColor === "#000000") {
@@ -61,37 +60,38 @@ export default function JustTypeShii() {
         >
             <ThemeToggle showControls={showControls} isDark={isDark} toggleTheme={toggleTheme} />
 
-<div className={`
-  fixed left-6 top-1/2 -translate-y-1/2 z-50 
+            <div className={`
+ fixed top-4/5 left-6 -translate-y-1/2 z-50
+  sm:top-1/2 sm:-translate-y-1/2 sm:fixed sm:left-6 sm:z-50
   w-[240px] flex flex-col gap-3
   transition-all duration-300 ease-out
-  ${showControls 
-    ? "opacity-100 translate-x-0" 
-    : "opacity-0 -translate-x-12 pointer-events-none"
-  }
+  ${showControls
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-12 pointer-events-none"
+                }
 `}>
-  {/* Colors Section - expands/collapses smoothly */}
-  <ColorPicker
-    textColor={textColor}
-    setTextColor={setTextColor}
-    showColorPicker={showColorPicker}
-    setShowColorPicker={setShowColorPicker}
-    onOpen={() => {}} // No need to close other sections
-    isDark={isDark}
-  />
-  
-  {/* Font Size Section - automatically moves down when Colors expands */}
-  <FontSizePicker
-    fontSize={fontSize}
-    increaseFontSize={increaseFontSize}
-    decreaseFontSize={decreaseFontSize}
-    showFontSize={showFontSize}
-    setShowFontSize={setShowFontSize}
-    showColorPicker={showColorPicker}
-    onOpen={() => {}} // No need to close other sections
-    isDark={isDark}
-  />
-</div>
+                {/* Colors Section: expands/collapses */}
+                <ColorPicker
+                    textColor={textColor}
+                    setTextColor={setTextColor}
+                    showColorPicker={showColorPicker}
+                    setShowColorPicker={setShowColorPicker}
+                    onOpen={() => { }}
+                    isDark={isDark}
+                />
+
+                {/* Font Size Section */}
+                <FontSizePicker
+                    fontSize={fontSize}
+                    increaseFontSize={increaseFontSize}
+                    decreaseFontSize={decreaseFontSize}
+                    showFontSize={showFontSize}
+                    setShowFontSize={setShowFontSize}
+                    showColorPicker={showColorPicker}
+                    onOpen={() => { }}
+                    isDark={isDark}
+                />
+            </div>
 
 
             <TextArea ref={inputRef} text={text} setText={setText} textColor={textColor} fontSize={fontSize} />

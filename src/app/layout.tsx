@@ -12,7 +12,7 @@ const figtree = Figtree({
 
 const doto = localFont({
   src: "./fonts/Doto-Bold.ttf",
-  weight: "700",
+  weight: "900",
   variable: "--font-doto",
   fallback: ["Arial", "sans-serif"],
 })

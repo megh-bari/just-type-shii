@@ -18,14 +18,14 @@ export function ThemeToggle({ showControls, isDark, toggleTheme }: ThemeTogglePr
       <button
         onClick={toggleTheme}
         className={`
-          w-12 h-12 cursor-pointer rounded-full backdrop-blur-sm border transition-colors duration-300 flex items-center justify-center
+          w-10 h-10 cursor-pointer rounded-full backdrop-blur-sm border transition-colors duration-300 flex items-center justify-center
           ${isDark
-            ? "bg-black border-neutral-700 text-white hover:bg-[#181818]"
+            ? "bg-black border-neutral-800 text-white hover:bg-[#181818]"
             : "bg-white border-gray-300 text-black hover:bg-gray-100/60"
           }
         `}
       >
-        {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-5 w-5" />}
       </button>
     </div>
   )
