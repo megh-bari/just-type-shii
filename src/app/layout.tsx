@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://justtypeshii.com"),
+  metadataBase: new URL("https://just-type-shii.vercel.app"),
   alternates: {
     canonical: "/",
   },
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: "Just Type Shii - Minimalist Typing Experience",
     description:
       "A beautiful, distraction-free typing environment with customizable colors, fonts, and themes. Just start typing and let your thoughts flow.",
-    url: "https://justtypeshii.com",
+    url: "https://just-type-shii.vercel.app",
     siteName: "Just Type Shii",
     images: [
       {
