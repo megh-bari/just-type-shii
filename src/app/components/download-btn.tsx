@@ -1,7 +1,7 @@
 "use client";
 
 import { Download } from "lucide-react";
-import html2canvas from "html2canvas-pro";
+import { toPng } from "html-to-image";
 
 interface DownloadButtonProps {
   text: string;
@@ -17,26 +17,30 @@ export function DownloadButton({ text, isDark, showControls }: DownloadButtonPro
     }
 
     try {
-      const hideElements = document.querySelectorAll<HTMLElement>("[data-hide-for-screenshot]");
-      hideElements.forEach(el => (el.style.visibility = "hidden"));
-
       const target = document.querySelector(".min-h-screen") as HTMLElement | null;
       if (!target) {
         console.error("No capture target found");
-        hideElements.forEach(el => (el.style.visibility = "visible"));
         return;
       }
 
-      const canvas = await html2canvas(target, {
+
+      const filter = (node: HTMLElement) => {
+        if (node.classList && node.classList.contains('screenshot-exclude')) return false;
+        const classAttr = node.getAttribute && node.getAttribute('class');
+        if (classAttr && classAttr.split(' ').includes('screenshot-exclude')) return false;
+        return true;
+      }
+       
+
+      const dataUrl = await toPng(target, {
         backgroundColor: isDark ? "#000000" : "#ffffff",
-        scale: 2,
+        cacheBust: true,
+        pixelRatio: 2,
+        filter: filter,
       });
 
-      hideElements.forEach(el => (el.style.visibility = "visible"));
-
-      const imageUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
-      a.href = imageUrl;
+      a.href = dataUrl;
       a.download = `just-type-shii-${new Date().toISOString().split("T")[0]}.png`;
       a.click();
 
@@ -51,7 +55,6 @@ export function DownloadButton({ text, isDark, showControls }: DownloadButtonPro
       className={`fixed top-6 right-20 z-50 transition-all duration-300 ${
         showControls ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
       }`}
-      data-hide-for-screenshot
     >
       <button
         onClick={handleDownload}

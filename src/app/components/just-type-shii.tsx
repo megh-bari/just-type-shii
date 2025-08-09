@@ -10,7 +10,7 @@ import { Title } from "./title"
 import { AmbientBackground } from "./ambient-background"
 import { useAutoFocus } from "../hooks/use-auto-focus"
 import { useControlsVisibility } from "../hooks/use-controls-visibility"
-// import { DownloadButton } from "./download-btn"
+import { DownloadButton } from "./download-btn"
 
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
@@ -61,25 +61,31 @@ export default function JustTypeShii() {
         <>
 
             <div
-                className={`min-h-screen data-hide-for-screenshot relative overflow-hidden transition-colors duration-500 ${isDark ? "bg-black text-white" : "bg-white text-black"
+                className={`min-h-screen relative overflow-hidden transition-colors duration-500 ${isDark ? "bg-black text-white" : "bg-white text-black"
                     }`}
                 onMouseMove={handleMouseMove}
             >   
 
-                {/* <DownloadButton text={text} isDark={isDark} showControls={showControls} /> */}
+                                <div className="screenshot-exclude">
+                                    <DownloadButton text={text} isDark={isDark} showControls={showControls} />
+                                </div>
 
-                <ThemeToggle showControls={showControls} isDark={isDark} toggleTheme={toggleTheme} />
+                                <div className="screenshot-exclude">
+                                    <ThemeToggle showControls={showControls} isDark={isDark} toggleTheme={toggleTheme} />
+                                </div>
 
-                <div className={` data-hide-for-screenshot
- fixed top-4/5 left-6 -translate-y-1/2 z-50
- sm:top-1/2 sm:-translate-y-1/2 sm:fixed sm:left-6 sm:z-50
- w-[240px] flex flex-col gap-3
- transition-all duration-300 ease-out
- ${showControls
-                        ? "opacity-100 translate-x-0"
-                        : "opacity-0 -translate-x-12 pointer-events-none"
-                    }
-`}>
+                                <div
+                                    className={`screenshot-exclude fixed top-4/5 left-6 -translate-y-1/2 z-50
+                                        sm:top-1/2 sm:-translate-y-1/2 sm:fixed sm:left-6 sm:z-50
+                                        w-[240px] flex flex-col gap-3
+                                        transition-all duration-300 ease-out
+                                        ${showControls
+                                            ? "opacity-100 translate-x-0"
+                                            : "opacity-0 -translate-x-12 pointer-events-none"
+                                        }
+                                    `}
+                                    data-hide-for-screenshot
+                                >
                     {/* Colors Section: expands/collapses */}
                     <ColorPicker
                         textColor={textColor}
