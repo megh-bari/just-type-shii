@@ -12,6 +12,7 @@ import { useAutoFocus } from "../hooks/use-auto-focus"
 import { useControlsVisibility } from "../hooks/use-controls-visibility"
 import { DownloadButton } from "./download-btn"
 import { useSearchParams, useRouter } from "next/navigation"
+import ToastMsg from "./toast-msg"
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
     const [textColor, setTextColor] = useState("#ffffff")
@@ -56,7 +57,7 @@ export default function JustTypeShii() {
             setBackgroundColor(paramsBg ?? getLS("jts_bg") ?? "#ffffff")
             const fs = parseInt(paramsFs ?? getLS("jts_fs") ?? "32", 10)
             setFontSize(Number.isFinite(fs) ? Math.min(Math.max(fs, 12), 120) : 32)
-    } catch {
+        } catch {
             // noop
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -159,31 +160,32 @@ export default function JustTypeShii() {
 
             <div
                 className={`min-h-screen relative overflow-hidden transition-colors duration-500 ${isDark ? "bg-black text-white" : "bg-white text-black"
-                }`}
+                    }`}
                 onMouseMove={handleMouseMove}
-                >   
-                <ToastMsg/>
+            >
+                {/* so bro @Star_Knight12 you just casually forgot to import <ToastMsg />. And here we are, with Vercel bot throwing a tantrum in the deployment logs. DW fixed it! */}
+                <ToastMsg /> 
 
-                                <div className="screenshot-exclude">
-                                    <DownloadButton text={text} isDark={isDark} showControls={showControls} onCopyLink={copyShareLink} />
-                                </div>
+                <div className="screenshot-exclude">
+                    <DownloadButton text={text} isDark={isDark} showControls={showControls} onCopyLink={copyShareLink} />
+                </div>
 
-                                <div className="screenshot-exclude">
-                                    <ThemeToggle showControls={showControls} isDark={isDark} toggleTheme={toggleTheme} />
-                                </div>
+                <div className="screenshot-exclude">
+                    <ThemeToggle showControls={showControls} isDark={isDark} toggleTheme={toggleTheme} />
+                </div>
 
-                                <div
-                                    className={`screenshot-exclude fixed top-4/5 left-6 -translate-y-1/2 z-50
+                <div
+                    className={`screenshot-exclude fixed top-4/5 left-6 -translate-y-1/2 z-50
                                         sm:top-1/2 sm:-translate-y-1/2 sm:fixed sm:left-6 sm:z-50
                                         w-[240px] flex flex-col gap-3
                                         transition-all duration-300 ease-out
                                         ${showControls
-                                            ? "opacity-100 translate-x-0"
-                                            : "opacity-0 -translate-x-12 pointer-events-none"
-                                        }
+                            ? "opacity-100 translate-x-0"
+                            : "opacity-0 -translate-x-12 pointer-events-none"
+                        }
                                     `}
-                                    data-hide-for-screenshot
-                                >
+                    data-hide-for-screenshot
+                >
                     {/* Colors Section: expands/collapses */}
                     <ColorPicker
                         textColor={textColor}
@@ -225,16 +227,14 @@ export default function JustTypeShii() {
 
                 {/* Toast notification */}
                 <div
-                    className={`screenshot-exclude fixed top-16 right-6 z-[60] transition-all duration-300 ${
-                        toastMsg ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
-                    }`}
+                    className={`screenshot-exclude fixed top-16 right-6 z-[60] transition-all duration-300 ${toastMsg ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
+                        }`}
                     role="status"
                     aria-live="polite"
                     aria-atomic="true"
                 >
-                    <div className={`px-3 py-2 rounded-md border text-sm shadow-sm ${
-                        isDark ? 'bg-black/90 text-white border-neutral-800' : 'bg-white/90 text-black border-gray-200'
-                    }`}>
+                    <div className={`px-3 py-2 rounded-md border text-sm shadow-sm ${isDark ? 'bg-black/90 text-white border-neutral-800' : 'bg-white/90 text-black border-gray-200'
+                        }`}>
                         {toastMsg}
                     </div>
                 </div>
