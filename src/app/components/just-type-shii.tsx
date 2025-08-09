@@ -11,6 +11,7 @@ import { AmbientBackground } from "./ambient-background"
 import { useAutoFocus } from "../hooks/use-auto-focus"
 import { useControlsVisibility } from "../hooks/use-controls-visibility"
 import { DownloadButton } from "./download-btn"
+import ToastMsg from "./toast-msg"
 
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
@@ -62,9 +63,10 @@ export default function JustTypeShii() {
 
             <div
                 className={`min-h-screen relative overflow-hidden transition-colors duration-500 ${isDark ? "bg-black text-white" : "bg-white text-black"
-                    }`}
+                }`}
                 onMouseMove={handleMouseMove}
-            >   
+                >   
+                <ToastMsg/>
 
                                 <div className="screenshot-exclude">
                                     <DownloadButton text={text} isDark={isDark} showControls={showControls} />
