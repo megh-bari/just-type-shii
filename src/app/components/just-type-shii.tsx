@@ -3,19 +3,23 @@
 import { useState, useRef } from "react"
 import { ThemeToggle } from "./theme-toggle"
 import { ColorPicker } from "./color-picker"
+import { BackgroundPicker } from "./background-picker"
 import { FontSizePicker } from "./font-size-picker"
 import { TextArea } from "./text-area"
 import { Title } from "./title"
 import { AmbientBackground } from "./ambient-background"
 import { useAutoFocus } from "../hooks/use-auto-focus"
 import { useControlsVisibility } from "../hooks/use-controls-visibility"
+// import { DownloadButton } from "./download-btn"
 
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
     const [textColor, setTextColor] = useState("#ffffff")
+    const [backgroundColor, setBackgroundColor] = useState("#ffffff")
     const [fontSize, setFontSize] = useState(32)
     const [text, setText] = useState("")
     const [showColorPicker, setShowColorPicker] = useState(false)
+    const [showBackgroundPicker, setShowBackgroundPicker] = useState(false)
     const [showFontSize, setShowFontSize] = useState(false)
 
     const inputRef = useRef<HTMLTextAreaElement>(null) as React.RefObject<HTMLTextAreaElement>
@@ -23,6 +27,7 @@ export default function JustTypeShii() {
     const { showControls, handleMouseMove } = useControlsVisibility({
         onHide: () => {
             setShowColorPicker(false)
+            setShowBackgroundPicker(false)
             setShowFontSize(false)
         },
     })
@@ -53,51 +58,68 @@ export default function JustTypeShii() {
     }
 
     return (
-        <div
-            className={`min-h-screen relative overflow-hidden transition-colors duration-500 ${isDark ? "bg-black text-white" : "bg-white text-black"
-                }`}
-            onMouseMove={handleMouseMove}
-        >
-            <ThemeToggle showControls={showControls} isDark={isDark} toggleTheme={toggleTheme} />
+        <>
 
-            <div className={`
+            <div
+                className={`min-h-screen data-hide-for-screenshot relative overflow-hidden transition-colors duration-500 ${isDark ? "bg-black text-white" : "bg-white text-black"
+                    }`}
+                onMouseMove={handleMouseMove}
+            >   
+
+                {/* <DownloadButton text={text} isDark={isDark} showControls={showControls} /> */}
+
+                <ThemeToggle showControls={showControls} isDark={isDark} toggleTheme={toggleTheme} />
+
+                <div className={` data-hide-for-screenshot
  fixed top-4/5 left-6 -translate-y-1/2 z-50
-  sm:top-1/2 sm:-translate-y-1/2 sm:fixed sm:left-6 sm:z-50
-  w-[240px] flex flex-col gap-3
-  transition-all duration-300 ease-out
-  ${showControls
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 -translate-x-12 pointer-events-none"
-                }
+ sm:top-1/2 sm:-translate-y-1/2 sm:fixed sm:left-6 sm:z-50
+ w-[240px] flex flex-col gap-3
+ transition-all duration-300 ease-out
+ ${showControls
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 -translate-x-12 pointer-events-none"
+                    }
 `}>
-                {/* Colors Section: expands/collapses */}
-                <ColorPicker
-                    textColor={textColor}
-                    setTextColor={setTextColor}
-                    showColorPicker={showColorPicker}
-                    setShowColorPicker={setShowColorPicker}
-                    onOpen={() => { }}
-                    isDark={isDark}
-                />
+                    {/* Colors Section: expands/collapses */}
+                    <ColorPicker
+                        textColor={textColor}
+                        setTextColor={setTextColor}
+                        showColorPicker={showColorPicker}
+                        setShowColorPicker={setShowColorPicker}
+                        onOpen={() => { }}
+                        isDark={isDark}
+                    />
 
-                {/* Font Size Section */}
-                <FontSizePicker
-                    fontSize={fontSize}
-                    increaseFontSize={increaseFontSize}
-                    decreaseFontSize={decreaseFontSize}
-                    showFontSize={showFontSize}
-                    setShowFontSize={setShowFontSize}
-                    showColorPicker={showColorPicker}
-                    onOpen={() => { }}
-                    isDark={isDark}
-                />
+                    {/* Background Section: expands/collapses */}
+                    <BackgroundPicker
+                        backgroundColor={backgroundColor}
+                        setBackgroundColor={setBackgroundColor}
+                        showBackgroundPicker={showBackgroundPicker}
+                        setShowBackgroundPicker={setShowBackgroundPicker}
+                        onOpen={() => { }}
+                        isDark={isDark}
+                    />
+
+                    {/* Font Size Section */}
+                    <FontSizePicker
+                        fontSize={fontSize}
+                        increaseFontSize={increaseFontSize}
+                        decreaseFontSize={decreaseFontSize}
+                        showFontSize={showFontSize}
+                        setShowFontSize={setShowFontSize}
+                        showColorPicker={showColorPicker}
+                        onOpen={() => { }}
+                        isDark={isDark}
+                    />
+                </div>
+
+
+                <TextArea ref={inputRef} text={text} setText={setText} textColor={textColor} fontSize={fontSize} />
+
+                <Title showControls={showControls} isDark={isDark} />
+                <AmbientBackground backgroundColor={backgroundColor} isDark={isDark} />
+
             </div>
-
-
-            <TextArea ref={inputRef} text={text} setText={setText} textColor={textColor} fontSize={fontSize} />
-
-            <Title showControls={showControls} isDark={isDark} />
-            <AmbientBackground textColor={textColor} />
-        </div>
+        </>
     )
 }
