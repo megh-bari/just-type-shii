@@ -18,6 +18,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         onChange={(e) => setText(e.target.value)}
         placeholder=""
         autoFocus
+  aria-label="Editor"
         spellCheck={false}         
         autoCorrect="off"         
         autoCapitalize="off"

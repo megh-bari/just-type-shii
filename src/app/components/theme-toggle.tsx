@@ -17,6 +17,10 @@ export function ThemeToggle({ showControls, isDark, toggleTheme }: ThemeTogglePr
     >
       <button
         onClick={toggleTheme}
+        role="switch"
+        aria-checked={isDark}
+        aria-label="Toggle theme"
+        title="Toggle theme"
         className={`
           w-10 h-10 cursor-pointer rounded-full backdrop-blur-sm border transition-colors duration-300 flex items-center justify-center
           ${isDark

@@ -24,6 +24,8 @@ export function FontSizePicker({
     <div className="w-full">
       <button
         onClick={() => setShowFontSize(!showFontSize)}
+  aria-controls="font-size-panel"
+  aria-expanded={showFontSize}
         className={`
           flex items-center justify-between gap-3 px-4 py-3 w-full border
           transition-all duration-200 backdrop-blur-sm cursor-pointer
@@ -64,6 +66,7 @@ export function FontSizePicker({
           }
           backdrop-blur-sm shadow-xl rounded-b-2xl
         `}
+  id="font-size-panel"
       >
         <div className="p-4">
           <div className="flex items-center justify-center gap-4">
