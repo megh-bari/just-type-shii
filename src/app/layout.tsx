@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next"
 import { Figtree } from "next/font/google";
 import localFont from "next/font/local"
 import "./globals.css";
@@ -113,6 +114,7 @@ export default function RootLayout({
         className={`font-figtree antialiased`}
       >
         {children}
+        <Analytics/>
       </body>
     </html>
   );
