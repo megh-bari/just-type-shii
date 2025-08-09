@@ -31,6 +31,8 @@ export function BackgroundPicker({
           setShowBackgroundPicker(!showBackgroundPicker);
           onOpen();
         }}
+  aria-controls="bg-picker-panel"
+  aria-expanded={showBackgroundPicker}
         className={`
           flex items-center justify-between gap-3 px-4 py-3 w-full border cursor-pointer
           transition-all duration-200 backdrop-blur-sm
@@ -64,6 +66,7 @@ export function BackgroundPicker({
           ${isDark ? "bg-black border-x border-b border-neutral-800" : "bg-white border-x border-b border-neutral-300"}
           backdrop-blur-sm shadow-xl rounded-b-2xl
         `}
+  id="bg-picker-panel"
       >
         <div className="p-4">
           <div className="grid grid-cols-5 gap-3">

@@ -26,6 +26,8 @@ export function ColorPicker({
       setShowColorPicker(!showColorPicker);
       onOpen();
     }}
+  aria-controls="color-picker-panel"
+  aria-expanded={showColorPicker}
     className={`
       flex items-center justify-between gap-3 px-4 py-3 w-full border cursor-pointer
       transition-all duration-200 backdrop-blur-sm
@@ -60,6 +62,7 @@ export function ColorPicker({
       ${isDark ? "bg-black border-x border-b border-neutral-800" : "bg-white border-x border-b border-neutral-300"}
       backdrop-blur-sm shadow-xl rounded-b-2xl
     `}
+  id="color-picker-panel"
   >
     <div className="p-4">
       <div className="grid grid-cols-5 gap-3">

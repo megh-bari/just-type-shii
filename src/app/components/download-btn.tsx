@@ -1,16 +1,17 @@
 "use client";
 
-import { Download, ChevronDown, Copy, ImageIcon } from "lucide-react";
-import { toPng } from "html-to-image";
+import { Download, ChevronDown, Copy, ImageIcon, Link as LinkIcon, FileImage } from "lucide-react";
+import { toPng, toJpeg, toSvg } from "html-to-image";
 import { useState, useRef, useEffect } from "react";
 
 interface DownloadButtonProps {
   text: string;
   isDark: boolean;
   showControls: boolean;
+  onCopyLink?: () => void;
 }
 
-export function DownloadButton({ text, isDark, showControls }: DownloadButtonProps) {
+export function DownloadButton({ text, isDark, showControls, onCopyLink }: DownloadButtonProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -64,6 +65,51 @@ export function DownloadButton({ text, isDark, showControls }: DownloadButtonPro
     }
   };
 
+  const generateJpeg = async () => {
+    try {
+      const target = document.querySelector(".min-h-screen") as HTMLElement | null;
+      if (!target) return null;
+      const filter = (node: HTMLElement) => {
+        if (node.classList && node.classList.contains('screenshot-exclude')) return false;
+        const classAttr = node.getAttribute && node.getAttribute('class');
+        if (classAttr && classAttr.split(' ').includes('screenshot-exclude')) return false;
+        return true;
+      }
+      return await toJpeg(target, {
+        quality: 0.92,
+        backgroundColor: isDark ? "#000000" : "#ffffff",
+        cacheBust: true,
+        pixelRatio: 2,
+        filter,
+      });
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
+  const generateSvg = async () => {
+    try {
+      const target = document.querySelector(".min-h-screen") as HTMLElement | null;
+      if (!target) return null;
+      const filter = (node: HTMLElement) => {
+        if (node.classList && node.classList.contains('screenshot-exclude')) return false;
+        const classAttr = node.getAttribute && node.getAttribute('class');
+        if (classAttr && classAttr.split(' ').includes('screenshot-exclude')) return false;
+        return true;
+      }
+      return await toSvg(target, {
+        cacheBust: true,
+        filter,
+        pixelRatio: 2,
+        backgroundColor: isDark ? "#000000" : "#ffffff",
+      });
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
   const handleDownload = async () => {
     const dataUrl = await generateImage();
     if (!dataUrl) return;
@@ -76,6 +122,26 @@ export function DownloadButton({ text, isDark, showControls }: DownloadButtonPro
     console.log("Screenshot downloaded successfully");
     setIsDropdownOpen(false);
   };
+
+  const handleDownloadJpeg = async () => {
+    const dataUrl = await generateJpeg();
+    if (!dataUrl) return;
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = `just-type-shii-${new Date().toISOString().split("T")[0]}.jpg`;
+    a.click();
+    setIsDropdownOpen(false);
+  }
+
+  const handleDownloadSvg = async () => {
+    const dataUrl = await generateSvg();
+    if (!dataUrl) return;
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = `just-type-shii-${new Date().toISOString().split("T")[0]}.svg`;
+    a.click();
+    setIsDropdownOpen(false);
+  }
 
   const handleCopyImage = async () => {
     const dataUrl = await generateImage();
@@ -107,9 +173,24 @@ export function DownloadButton({ text, isDark, showControls }: DownloadButtonPro
       action: handleDownload,
     },
     {
+      icon: FileImage,
+      label: "Save JPEG",
+      action: handleDownloadJpeg,
+    },
+    {
+      icon: ImageIcon,
+      label: "Save SVG",
+      action: handleDownloadSvg,
+    },
+    {
       icon: Copy,
       label: "Copy Image",
       action: handleCopyImage,
+    },
+    {
+      icon: LinkIcon,
+      label: "Copy share link",
+      action: () => { onCopyLink?.(); setIsDropdownOpen(false); },
     },
   ];
 
@@ -130,6 +211,8 @@ export function DownloadButton({ text, isDark, showControls }: DownloadButtonPro
               : "bg-white border-gray-200 text-black hover:bg-gray-100/60 disabled:opacity-30 disabled:cursor-not-allowed"
           }`}
           aria-label="Export options"
+          aria-haspopup="menu"
+          aria-expanded={isDropdownOpen}
         >
           <Download className="h-4 w-4" />
           <ChevronDown
@@ -145,6 +228,7 @@ export function DownloadButton({ text, isDark, showControls }: DownloadButtonPro
                 ? "bg-black/90 border-neutral-800"
                 : "bg-white/90 border-gray-200"
             }`}
+            role="menu"
           >
             {menuItems.map((item, index) => (
               <button
@@ -155,6 +239,7 @@ export function DownloadButton({ text, isDark, showControls }: DownloadButtonPro
                     ? "text-white hover:bg-neutral-800/50"
                     : "text-black hover:bg-gray-100/50"
                 }`}
+                role="menuitem"
               >
                 <item.icon className="h-4 w-4" />
                 <span className="text-sm font-medium flex-1 text-left">
