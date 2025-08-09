@@ -12,7 +12,6 @@ import { useAutoFocus } from "../hooks/use-auto-focus"
 import { useControlsVisibility } from "../hooks/use-controls-visibility"
 import { DownloadButton } from "./download-btn"
 import { useSearchParams, useRouter } from "next/navigation"
-
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
     const [textColor, setTextColor] = useState("#ffffff")
@@ -160,9 +159,10 @@ export default function JustTypeShii() {
 
             <div
                 className={`min-h-screen relative overflow-hidden transition-colors duration-500 ${isDark ? "bg-black text-white" : "bg-white text-black"
-                    }`}
+                }`}
                 onMouseMove={handleMouseMove}
-            >   
+                >   
+                <ToastMsg/>
 
                                 <div className="screenshot-exclude">
                                     <DownloadButton text={text} isDark={isDark} showControls={showControls} onCopyLink={copyShareLink} />

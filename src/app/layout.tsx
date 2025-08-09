@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next"
 import { Figtree } from "next/font/google";
 import localFont from "next/font/local"
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -112,7 +114,9 @@ export default function RootLayout({
       <body
         className={`font-figtree antialiased`}
       >
+        <Toaster position="top-center"/>
         {children}
+        <Analytics/>
       </body>
     </html>
   );
