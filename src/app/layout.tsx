@@ -16,7 +16,30 @@ const doto = localFont({
   src: "./fonts/Doto-Bold.ttf",
   weight: "900",
   variable: "--font-doto",
-  fallback: ["Arial", "sans-serif"],
+})
+
+const adlam = localFont({
+  src: "./fonts/Adlam-regular.ttf",
+  variable: "--font-adlam",
+  fallback: ["serif"],
+})
+
+const imperial = localFont({
+  src: "./fonts/ImperialScript-Regular.ttf",
+  variable: "--font-imperial",
+  fallback: ["cursive"],
+})
+
+const kablammo = localFont({
+  src: "./fonts/Kablammo-Regular-VariableFont.ttf",
+  variable: "--font-kablammo",
+  fallback: ["fantasy"],
+})
+
+const unifraktur = localFont({
+  src: "./fonts/Unifrakturmaguntia-Regular.ttf",
+  variable: "--font-unifraktur",
+  fallback: ["serif"],
 })
 
 export const metadata: Metadata = {
@@ -110,7 +133,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${figtree.variable} ${doto.variable}`}>
+    <html lang="en" className={`${figtree.variable} ${doto.variable} ${adlam.variable} ${imperial.variable} ${kablammo.variable} ${unifraktur.variable}`}>
       <body
         className={`font-figtree antialiased`}
       >
