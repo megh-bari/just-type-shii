@@ -19,17 +19,30 @@ export function AmbientBackground({ backgroundColor, isDark }: AmbientBackground
     return () => mq.removeEventListener?.("change", update)
   }, [])
 
+  // Convert hex to rgba with opacity
+  const hexToRgba = (hex: string, opacity: number) => {
+    // Remove # if present
+    hex = hex.replace('#', '')
+    
+    // Convert to RGB
+    const r = parseInt(hex.substring(0, 2), 16)
+    const g = parseInt(hex.substring(2, 4), 16)
+    const b = parseInt(hex.substring(4, 6), 16)
+    
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`
+  }
+
   return (
     <div
       className={`fixed inset-0 pointer-events-none transition-all ${reducedMotion ? "duration-0" : "duration-1000"} z-0`}
       style={{
         background: reducedMotion
           ? isDark
-            ? `${backgroundColor}22`
-            : `${backgroundColor}18`
+            ? hexToRgba(backgroundColor, 0.13) // 22 in hex = ~0.13 opacity
+            : hexToRgba(backgroundColor, 0.09) // 18 in hex = ~0.09 opacity
           : isDark
-            ? `radial-gradient(circle at 50% 50%, ${backgroundColor}20 0%, transparent 70%)`
-            : `radial-gradient(circle at 50% 50%, ${backgroundColor}70 0%, ${backgroundColor}22 50%, transparent 70%)`,
+            ? `radial-gradient(circle at 50% 50%, ${hexToRgba(backgroundColor, 0.12)} 0%, transparent 70%)`
+            : `radial-gradient(circle at 50% 50%, ${hexToRgba(backgroundColor, 0.44)} 0%, ${hexToRgba(backgroundColor, 0.13)} 50%, transparent 70%)`,
         opacity: isDark ? 0.3 : 1,
       }}
     />

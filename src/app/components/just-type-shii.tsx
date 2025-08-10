@@ -16,7 +16,11 @@ import ToastMsg from "./toast-msg"
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
     const [textColor, setTextColor] = useState("#ffffff")
-    const [backgroundColor, setBackgroundColor] = useState("#ffffff")
+    const [backgroundColor, setBackgroundColorState] = useState("#ffffff")
+    
+    const setBackgroundColor = (color: string) => {
+        setBackgroundColorState(color)
+    }
     const [fontSize, setFontSize] = useState(32)
     const [text, setText] = useState("")
     const [showColorPicker, setShowColorPicker] = useState(false)
@@ -54,7 +58,7 @@ export default function JustTypeShii() {
             setIsDark(paramsIsDark ? paramsIsDark === "1" : (getLS("jts_dark") ?? "1") === "1")
             setText(paramsText ?? getLS("jts_text") ?? "")
             setTextColor(paramsColor ?? getLS("jts_color") ?? "#ffffff")
-            setBackgroundColor(paramsBg ?? getLS("jts_bg") ?? "#ffffff")
+            setBackgroundColorState(paramsBg ?? getLS("jts_bg") ?? "#ffffff")
             const fs = parseInt(paramsFs ?? getLS("jts_fs") ?? "32", 10)
             setFontSize(Number.isFinite(fs) ? Math.min(Math.max(fs, 12), 120) : 32)
         } catch {
