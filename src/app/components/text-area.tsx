@@ -7,10 +7,11 @@ interface TextAreaProps {
   setText: (text: string) => void
   textColor: string
   fontSize: number
+  selectedFont: string
 }
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ text, setText, textColor, fontSize }, ref) => {
+  ({ text, setText, textColor, fontSize, selectedFont }, ref) => {
     return (
       <textarea
         ref={ref}
@@ -22,7 +23,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         spellCheck={false}         
         autoCorrect="off"         
         autoCapitalize="off"
-        className="fixed inset-0 w-full h-full p-20 bg-transparent border-none outline-none resize-none font-doto font-light tracking-wide leading-relaxed text-center"
+        className={`fixed inset-0 w-full h-full p-20 bg-transparent border-none outline-none resize-none ${selectedFont} tracking-wide leading-relaxed text-center`}
         style={{
           color: textColor,
           fontSize: `${fontSize}px`,

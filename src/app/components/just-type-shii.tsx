@@ -5,6 +5,7 @@ import { ThemeToggle } from "./theme-toggle"
 import { ColorPicker } from "./color-picker"
 import { BackgroundPicker } from "./background-picker"
 import { FontSizePicker } from "./font-size-picker"
+import { FontPicker } from "./font-picker"
 import { TextArea } from "./text-area"
 import { Title } from "./title"
 import { AmbientBackground } from "./ambient-background"
@@ -16,12 +17,18 @@ import ToastMsg from "./toast-msg"
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
     const [textColor, setTextColor] = useState("#ffffff")
-    const [backgroundColor, setBackgroundColor] = useState("#ffffff")
+    const [backgroundColor, setBackgroundColorState] = useState("#ffffff")
+    
+    const setBackgroundColor = (color: string) => {
+        setBackgroundColorState(color)
+    }
     const [fontSize, setFontSize] = useState(32)
+    const [selectedFont, setSelectedFont] = useState("font-doto") // Default to Doto-Bold
     const [text, setText] = useState("")
     const [showColorPicker, setShowColorPicker] = useState(false)
     const [showBackgroundPicker, setShowBackgroundPicker] = useState(false)
     const [showFontSize, setShowFontSize] = useState(false)
+    const [showFontPicker, setShowFontPicker] = useState(false)
 
     const inputRef = useRef<HTMLTextAreaElement>(null) as React.RefObject<HTMLTextAreaElement>
     const [toastMsg, setToastMsg] = useState<string | null>(null)
@@ -34,6 +41,7 @@ export default function JustTypeShii() {
             setShowColorPicker(false)
             setShowBackgroundPicker(false)
             setShowFontSize(false)
+            setShowFontPicker(false)
         },
     })
 
@@ -47,6 +55,7 @@ export default function JustTypeShii() {
             const paramsColor = searchParams.get("c")
             const paramsBg = searchParams.get("bg")
             const paramsFs = searchParams.get("fs")
+            const paramsFont = searchParams.get("font")
 
             const ls = typeof window !== 'undefined' ? window.localStorage : null
             const getLS = (k: string) => ls?.getItem(k) ?? undefined
@@ -54,9 +63,10 @@ export default function JustTypeShii() {
             setIsDark(paramsIsDark ? paramsIsDark === "1" : (getLS("jts_dark") ?? "1") === "1")
             setText(paramsText ?? getLS("jts_text") ?? "")
             setTextColor(paramsColor ?? getLS("jts_color") ?? "#ffffff")
-            setBackgroundColor(paramsBg ?? getLS("jts_bg") ?? "#ffffff")
+            setBackgroundColorState(paramsBg ?? getLS("jts_bg") ?? "#ffffff")
             const fs = parseInt(paramsFs ?? getLS("jts_fs") ?? "32", 10)
             setFontSize(Number.isFinite(fs) ? Math.min(Math.max(fs, 12), 120) : 32)
+            setSelectedFont(paramsFont ?? getLS("jts_font") ?? "font-doto")
         } catch {
             // noop
         }
@@ -73,6 +83,7 @@ export default function JustTypeShii() {
             ls.setItem("jts_color", textColor)
             ls.setItem("jts_bg", backgroundColor)
             ls.setItem("jts_fs", String(fontSize))
+            ls.setItem("jts_font", selectedFont)
 
             const params = new URLSearchParams()
             if (isDark) params.set("dark", "1")
@@ -80,6 +91,7 @@ export default function JustTypeShii() {
             if (textColor) params.set("c", textColor)
             if (backgroundColor) params.set("bg", backgroundColor)
             if (fontSize !== 32) params.set("fs", String(fontSize))
+            if (selectedFont !== "font-doto") params.set("font", selectedFont)
             const qs = params.toString()
             const id = window.setTimeout(() => {
                 router.replace(qs ? `/?${qs}` : "/")
@@ -88,7 +100,7 @@ export default function JustTypeShii() {
         } catch {
             // ignore
         }
-    }, [isDark, text, textColor, backgroundColor, fontSize, router])
+    }, [isDark, text, textColor, backgroundColor, fontSize, selectedFont, router])
 
     const increaseFontSize = useCallback(() => {
         setFontSize((prev) => Math.min(prev + 4, 120))
@@ -206,6 +218,16 @@ export default function JustTypeShii() {
                         isDark={isDark}
                     />
 
+                    {/* Font Picker Section */}
+                    <FontPicker
+                        selectedFont={selectedFont}
+                        setSelectedFont={setSelectedFont}
+                        showFontPicker={showFontPicker}
+                        setShowFontPicker={setShowFontPicker}
+                        onOpen={() => { }}
+                        isDark={isDark}
+                    />
+
                     {/* Font Size Section */}
                     <FontSizePicker
                         fontSize={fontSize}
@@ -220,7 +242,7 @@ export default function JustTypeShii() {
                 </div>
 
 
-                <TextArea ref={inputRef} text={text} setText={setText} textColor={textColor} fontSize={fontSize} />
+                <TextArea ref={inputRef} text={text} setText={setText} textColor={textColor} fontSize={fontSize} selectedFont={selectedFont} />
 
                 <Title showControls={showControls} isDark={isDark} />
                 <AmbientBackground backgroundColor={backgroundColor} isDark={isDark} />
