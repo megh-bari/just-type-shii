@@ -14,6 +14,7 @@ import { useControlsVisibility } from "../hooks/use-controls-visibility"
 import { DownloadButton } from "./download-btn"
 import { useSearchParams, useRouter } from "next/navigation"
 import ToastMsg from "./toast-msg"
+import { TextShadowPicker } from "./text-shadow"
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
     const [textColor, setTextColor] = useState("#ffffff")
@@ -29,6 +30,15 @@ export default function JustTypeShii() {
     const [showBackgroundPicker, setShowBackgroundPicker] = useState(false)
     const [showFontSize, setShowFontSize] = useState(false)
     const [showFontPicker, setShowFontPicker] = useState(false)
+    // default values for shadow
+    const [textShadow, setTextShadow] = useState({
+        x: 4,
+        y: 2,
+        blur: 4,
+        color: "#000000",
+        opacity: 0.5
+    });
+   
 
     const inputRef = useRef<HTMLTextAreaElement>(null) as React.RefObject<HTMLTextAreaElement>
     const [toastMsg, setToastMsg] = useState<string | null>(null)
@@ -46,6 +56,17 @@ export default function JustTypeShii() {
     })
 
     useAutoFocus(inputRef)
+
+    // Convert the Hex to Rgba or converting into numbers ex:- 203,40,80
+    const hexToRgba = (hex: string, alpha: number) => {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `rgba(${r},${g},${b},${alpha})`;
+    };
+
+    const textShadowCss = `${textShadow.x}px ${textShadow.y}px ${textShadow.blur}px ${hexToRgba(textShadow.color, textShadow.opacity)}`;
+
 
     // Load initial state from URL or localStorage
     useEffect(() => {
@@ -239,10 +260,18 @@ export default function JustTypeShii() {
                         onOpen={() => { }}
                         isDark={isDark}
                     />
+                    
+                    {/* Text Shadow Section */}
+                    <TextShadowPicker 
+                        value={textShadow}
+                        onChange={setTextShadow}
+                        isDark={isDark}
+                    />
+
                 </div>
 
 
-                <TextArea ref={inputRef} text={text} setText={setText} textColor={textColor} fontSize={fontSize} selectedFont={selectedFont} />
+                <TextArea ref={inputRef} text={text} setText={setText} textColor={textColor} textShadow={textShadowCss} fontSize={fontSize} selectedFont={selectedFont} />
 
                 <Title showControls={showControls} isDark={isDark} />
                 <AmbientBackground backgroundColor={backgroundColor} isDark={isDark} />
