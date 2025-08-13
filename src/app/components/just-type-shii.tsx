@@ -184,6 +184,7 @@ export default function JustTypeShii() {
 
                 <div className="screenshot-exclude">
                     <ThemeToggle showControls={showControls} isDark={isDark} toggleTheme={toggleTheme} />
+                    
                 </div>
 
                 <div

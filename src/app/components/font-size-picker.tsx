@@ -31,7 +31,7 @@ export function FontSizePicker({
           transition-all duration-200 backdrop-blur-sm cursor-pointer
           ${showFontSize ? "rounded-t-2xl rounded-b-none" : "rounded-2xl"}
           ${isDark
-            ? "bg-black border-neutral-800 text-white "
+            ? "bg-black border-neutral-800 text-white hover:bg-neutral-900"
             : "bg-white border-neutral-300 text-black hover:bg-neutral-100 shadow-lg"
           }
         `}
@@ -41,7 +41,8 @@ export function FontSizePicker({
           <span className="font-medium">Font Size</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className={`text-sm font-mono px-2 py-1 rounded ${isDark ? "bg-neutral-900 text-neutral-300" : "bg-neutral-100 text-neutral-700"}`}>
+          <span className={`text-sm font-mono px-2 py-1 rounded ${isDark    ? "bg-neutral-900 text-white border border-neutral-800"
+              : "bg-neutral-100 text-neutral-800 border border-neutral-300"}`}>
             {fontSize}px
           </span>
           <svg

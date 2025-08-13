@@ -42,7 +42,7 @@ export function ColorPicker({
           transition-all duration-200 backdrop-blur-sm
           ${showColorPicker ? "rounded-t-2xl rounded-b-none" : "rounded-2xl"}
           ${isDark
-            ? "bg-black border-neutral-800 text-white "
+            ? "bg-black border-neutral-800 text-white hover:bg-neutral-900"
             : "bg-white border-neutral-300 text-black hover:bg-neutral-100 shadow-lg"
           }
         `}
