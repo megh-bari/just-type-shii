@@ -15,6 +15,7 @@ import { DownloadButton } from "./download-btn"
 import { useSearchParams, useRouter } from "next/navigation"
 import ToastMsg from "./toast-msg"
 import { TextShadowPicker } from "./text-shadow"
+import { ShortcutButton } from "./shortcuts-btn"
 export default function JustTypeShii() {
     const [isDark, setIsDark] = useState(true)
     const [textColor, setTextColor] = useState("#ffffff")
@@ -198,6 +199,10 @@ export default function JustTypeShii() {
             >
                 {/* so bro @Star_Knight12 you just casually forgot to import <ToastMsg />. And here we are, with Vercel bot throwing a tantrum in the deployment logs. DW fixed it! */}
                 <ToastMsg /> 
+
+                <div className="screenshot-exclude">
+                    <ShortcutButton isDark={isDark} showControls={showControls} />
+                </div>
 
                 <div className="screenshot-exclude">
                     <DownloadButton text={text} isDark={isDark} showControls={showControls} onCopyLink={copyShareLink} />
