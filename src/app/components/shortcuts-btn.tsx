@@ -1,7 +1,7 @@
 "use client"
 
 import { Keyboard, X } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface ShortcutProps {
     showControls: boolean
@@ -24,6 +24,29 @@ export function ShortcutButton({ showControls, isDark }: ShortcutProps) {
     const closeModal = () => {
         setIsModalOpen(false)
     }
+    
+    const copyShareLink = async ()=>{
+        const url = window.location.href
+        try{
+            await navigator.clipboard.writeText(url)
+        }catch(e){
+            console.log(e)
+        }
+        
+    }
+
+    useEffect(()=>{
+        const handleKeyDown = (e : KeyboardEvent)=>{
+            if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l'){
+                e.preventDefault()
+                copyShareLink()
+            }
+        }
+        window.addEventListener('keydown' , handleKeyDown)
+        return()=> window.removeEventListener('keydown' , handleKeyDown)
+    })
+
+
 
     const shortcuts = [
         {
