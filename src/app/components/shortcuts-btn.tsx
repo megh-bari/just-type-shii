@@ -2,7 +2,6 @@
 
 import { Keyboard, X } from "lucide-react"
 import { useEffect, useState } from "react"
-import { toast } from "sonner"
 
 interface ShortcutProps {
     showControls: boolean
@@ -31,6 +30,7 @@ export function ShortcutButton({ showControls, isDark }: ShortcutProps) {
         try{
             await navigator.clipboard.writeText(url)
         }catch(e){
+            console.log(e)
         }
         
     }
